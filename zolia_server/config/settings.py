@@ -25,8 +25,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "user",
     "rest_framework",
+    "account",
 ]
 
 
@@ -39,7 +39,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
