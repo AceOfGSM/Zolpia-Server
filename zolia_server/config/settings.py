@@ -27,12 +27,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "user",
     "rest_framework",
-    "rest_framework.authtoken",
-    "rest_auth",
-    "rest_auth.registration",
-    "django.contrib.sites",
-    "allauth",
-    "allauth.account",
 ]
 
 
@@ -46,15 +40,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "user.User"
-
-# ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_REQUIRED = False
-
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_VERIFICATION = "none"
-
-REST_USE_JWT = True
-ACCOUNT_LOGOUT_ON_GET = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
