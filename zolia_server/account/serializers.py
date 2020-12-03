@@ -13,8 +13,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = ("email", "password", "name")
 
     def create(self, validated_data):
-        validated_data["password"] = make_password(validated_data["password"])
-        return User.objects.create(**validated_data)
+        return User.objects.create_user(**validated_data)
 
 
 class LoginUserSerializer(serializers.Serializer):
@@ -22,7 +21,7 @@ class LoginUserSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate(self, data):
-        user = authenticate(data)
+        user = authenticate(**data)
         if user is None:
             msg = _("User instance not exists")
             raise serializers.ValidationError(msg)

@@ -7,25 +7,28 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def create_user(self, email, nickname, password=None):
+    def create_user(self, email, name, password=None):
 
         if not email:
             raise ValueError("must have user email")
-        user = self.model(email=self.normalize_email(email), nickname=nickname)
+        user = self.model(email=self.normalize_email(email), name=name)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, nickname, password):
+    def create_superuser(self, email, name, password):
 
         user = self.create_user(
-            email=self.normalize_email(email), nickname=nickname, password=password
+            email=self.normalize_email(email), name=name, password=password
         )
         user.is_admin = True
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
         return user
+
+    def get_by_natural_key(self, username):
+        return self.get(email=username)
 
 
 class User(AbstractUser):
