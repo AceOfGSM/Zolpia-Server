@@ -26,3 +26,26 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
+
+
+class User(AbstractUser):
+    firstname = None
+    last_name = None
+    username = None
+
+    objects = UserManager()
+
+    email = models.EmailField(
+        _("email address"), unique=True, max_length=128, primary_key=True
+    )
+
+    name = models.CharField(
+        _("username"),
+        max_length=150,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
