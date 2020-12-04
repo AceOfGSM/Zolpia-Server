@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import SleepAnalysisResultListCreateAPI
+from .views import ListCreateSleepAnalysisResultAPI, UpdateSleepAnalysisResultAPI
 
 urlpatterns = [
-    path("/", SleepAnalysisResultListCreateAPI.as_view()),
+    path("/", ListCreateSleepAnalysisResultAPI.as_view()),
+    path("/sleep-end/<sleepAnalysisResultID>/", UpdateSleepAnalysisResultAPI.as_view()),
 ]
