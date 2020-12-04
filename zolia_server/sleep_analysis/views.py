@@ -37,4 +37,4 @@ class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
         serialized = self.get_serializer(data=instance)
         serialized.update(instance, **data)
         serialized.is_valid()
-        return Response(status=status.HTTP_200_OK)
+        return Response(data={"message": "process complete"}, status=status.HTTP_200_OK)
