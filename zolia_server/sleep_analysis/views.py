@@ -67,7 +67,7 @@ class CreateEEGDataAPI(generics.CreateAPIView):
     serializer_class = EEGDataSerializer
 
     def post(self, request, *args, **kwargs):
-        eegData_list = request.data["eeg-data"]
+        eegData_list = request.data["eeg_data"]
         statement = get_statement_by_eegdata_list(eegData_list)
 
         data = {
