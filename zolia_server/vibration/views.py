@@ -30,4 +30,8 @@ class RetrieveVibrationSettingAPI(generics.RetrieveAPIView):
     serializer_class = VibrationSettingSerializer
 
     def get(self, request, *args, **kwargs):
-        pass
+        instance = self.queryset.get(name=kwargs["name"], userID=request.user.email)
+
+        serializer = self.get_serializer(instance)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
