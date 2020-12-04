@@ -6,9 +6,17 @@ from .models import VibrationSetting
 from .serializers import VibrationSettingSerializer
 
 
-class CreateVibrationSettingAPI(generics.CreateAPIView):
+class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
     queryset = VibrationSetting.objects.all()
     serializer_class = VibrationSettingSerializer
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(userID=request.user.email)
+
+        serializer = VibrationSettingSerializer(queryset, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         instance = self.queryset.filter(
