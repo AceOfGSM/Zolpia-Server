@@ -8,3 +8,9 @@ class VibrationSetting(models.Model):
     name = models.CharField(default="")  # "진동1"
     isAlarm = models.BooleanField(default=False)  # True
     alarmTimeTo = models.CharField(null=True)  # "08:00"
+
+
+class RawVibration(models.Model):
+    vibrationSettingID = models.ForeignKey(VibrationSetting, on_delete=models.CASCADE)
+    value = models.IntegerField()
+    sequence = models.IntegerField()
