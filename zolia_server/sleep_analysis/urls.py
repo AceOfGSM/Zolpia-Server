@@ -3,6 +3,7 @@ from .views import (
     CreateSleepAnalysisResultAPI,
     UpdateSleepAnalysisResultAPI,
     RetrieveSleepAnalysisResultAPI,
+    CreateEEGDataAPI,
 )
 
 urlpatterns = [
@@ -12,4 +13,5 @@ urlpatterns = [
         "/sleep-end/<int:sleepAnalysisResultID>/",
         UpdateSleepAnalysisResultAPI.as_view(),
     ),
+    path("/raw-eeg/", CreateEEGDataAPI.as_view()),
 ]
