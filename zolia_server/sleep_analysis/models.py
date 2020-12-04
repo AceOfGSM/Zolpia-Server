@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class SleepAnalysisResult(models.Model):
     userID = models.ForeignKey("account.User")  # hanbin8269@gmail.com
-    sleepScore = models.FloatField()  # 87
+    sleepScore = models.FloatField(null=True)  # 87
     sleepTimeFrom = models.CharField(null=True)  # "22:00"
     sleepTimeTo = models.CharField(null=True)  # "7:00"
     deepSleepTime = models.IntegerField(null=True)  # 140
