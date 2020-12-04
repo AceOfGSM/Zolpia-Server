@@ -10,3 +10,8 @@ class SleepAnalysisResult(models.Model):
     shallowSleepTime = models.IntegerField(null=True)  # 130
     evalulation = models.CharField(null=True)  # "나쁘지 않게 주무셨네요 ㅋ"
     sleepDate = models.DateField()  # "2020-07-18"
+
+
+class EEGData(models.Model):
+    sleepAnalysisResultID = models.ForeignKey(SleepAnalysisResult)  # 1
+    statement = models.IntegerField()  # 1 : 수면 2 : 깊은 수면 3 : 얕은 수면 이런식으로
