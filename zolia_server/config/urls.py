@@ -20,4 +20,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth", include("account.urls")),
     path("sleep-analysis", include("sleep_analysis.urls")),
+    path("vibration", include("vibration.urls"))
 ]
