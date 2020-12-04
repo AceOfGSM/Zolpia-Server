@@ -2,12 +2,32 @@ from rest_framework import generics, mixins, status
 from rest_framework.response import Response
 
 from .serializers import SleepAnalysisResultSerializer
-from .models import SleepAnalysisResult
+from .models import SleepAnalysisResult, EEGData
 
 
-class ListCreateSleepAnalysisResultAPI(generics.ListCreateAPIView):
+class CreateSleepAnalysisResultAPI(generics.CreateAPIView):
     queryset = SleepAnalysisResult.objects.all()
     serializer_class = SleepAnalysisResultSerializer
+
+
+class RetrieveSleepAnalysisResultAPI(generics.RetrieveAPIView):
+    queryset = SleepAnalysisResult.objects.all()
+    serializer_class = SleepAnalysisResultSerializer
+
+    def get(self, request, *args, **kwargs):
+        instance = self.queryset.get(id=kwargs["sleepAnalysisResultID"])
+        serializer = self.get_serializer(instance)
+
+        result = serializer.data
+
+        result["EEGData"] = [
+            eegData["statement"]
+            for eegData in EEGData.objects.filter(
+                sleepAnalysisResultID=kwargs["sleepAnalysisResultID"]
+            ).values("statement")
+        ]
+
+        return Response(data=result, status=status.HTTP_200_OK)
 
 
 class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
@@ -34,7 +54,7 @@ class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
         #    "evalulation" : evalulation 구해주는 함수
         # }
 
-        serialized = self.get_serializer(data=instance)
-        serialized.update(instance, **data)
-        serialized.is_valid()
+        serializer = self.get_serializer(data=instance)
+        serializer.update(instance, **data)
+        serializer.is_valid()
         return Response(data={"message": "process complete"}, status=status.HTTP_200_OK)
