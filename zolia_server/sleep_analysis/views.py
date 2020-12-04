@@ -1,8 +1,10 @@
 from rest_framework import generics, mixins, status
 from rest_framework.response import Response
 
-from .serializers import SleepAnalysisResultSerializer
+from .serializers import SleepAnalysisResultSerializer, EEGDataSerializer
 from .models import SleepAnalysisResult, EEGData
+
+from utils.EEGDataAnalysis import get_statement_by_eegdata_list  # 나중에 AI 코드 여기서 추가
 
 
 class CreateSleepAnalysisResultAPI(generics.CreateAPIView):
@@ -58,3 +60,25 @@ class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
         serializer.update(instance, **data)
         serializer.is_valid()
         return Response(data={"message": "process complete"}, status=status.HTTP_200_OK)
+
+
+class CreateEEGDataAPI(generics.CreateAPIView):
+    queryset = EEGData.objects.all()
+    serializer_class = EEGDataSerializer
+
+    def post(self, request, *args, **kwargs):
+        eegData_list = request.data["eeg-data"]
+        statement = get_statement_by_eegdata_list(eegData_list)
+
+        data = {
+            "sleepAnalysisResultID": request.data["sleepAnalysisResultID"],
+            "statement": statement,
+        }
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid()
+        serializer.save()
+
+        return Response(
+            data={"message": "process complete"}, status=status.HTTP_201_CREATED
+        )
