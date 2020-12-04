@@ -21,6 +21,8 @@ JWT_AUTH = {
     "JWT_ALGORITHM": config_secret_common["jwt"]["algorithm"],
 }
 
+AUTH_USER_MODEL = "account.User"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -51,7 +53,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "account.authentication.CustomJSONWebTokenAuthentication",
         #'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
     ),
