@@ -6,6 +6,7 @@ class SleepAnalysisResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = SleepAnalysisResult
         fields = "__all__"
+        lookup_field = "id"
 
     def create(self, validated_data):
         ModelClass = self.Meta.model
