@@ -13,5 +13,5 @@ urlpatterns = [
         "/sleep-end/<int:sleepAnalysisResultID>/",
         UpdateSleepAnalysisResultAPI.as_view(),
     ),
-    path("/raw-eeg/", CreateEEGDataAPI.as_view()),
+    path("/eeg-to-statement/", CreateEEGDataAPI.as_view()),
 ]
