@@ -23,3 +23,11 @@ class CreateVibrationSettingAPI(generics.CreateAPIView):
         serializer.save()
 
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
+class RetrieveVibrationSettingAPI(generics.RetrieveAPIView):
+    queryset = VibrationSetting.objects.all()
+    serializer_class = VibrationSettingSerializer
+
+    def get(self, request, *args, **kwargs):
+        pass
