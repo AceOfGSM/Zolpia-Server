@@ -44,3 +44,8 @@ class RetrieveVibrationSettingAPI(generics.RetrieveAPIView):
         serializer = self.get_serializer(instance)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class ListCreateVibrationPatternAPI(generics.ListCreateAPIView):
+    queryset = VibrationPattern.objects.all()
+    serializer_class = VibrationPatternSerializer
