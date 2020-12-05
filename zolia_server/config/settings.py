@@ -13,7 +13,7 @@ SECRET_KEY = "$ubu2=j!p4(d2rad#ffpp!0@27_h$7okb#jes057c=!x$-r^l7"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
