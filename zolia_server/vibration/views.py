@@ -49,3 +49,10 @@ class RetrieveVibrationSettingAPI(generics.RetrieveAPIView):
 class ListCreateVibrationPatternAPI(generics.ListCreateAPIView):
     queryset = VibrationPattern.objects.all()
     serializer_class = VibrationPatternSerializer
+
+
+class RetrieveVibrationPatternAPI(generics.RetrieveAPIView):
+    queryset = VibrationPattern.objects.all()
+    serializer_class = VibrationPatternSerializer
+
+    lookup_field = "name"
