@@ -1,20 +1,39 @@
-from pathlib import Path
+import os
+import json
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# \zolpia-server\zolpia_server\config
+_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# \silver-band=server\silver_band
+BASE_DIR = os.path.dirname(_BASE)
+# \silver-band=server\silver_band\config
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
+CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, ".config_secret")
+CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, "settings_common.json")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "$ubu2=j!p4(d2rad#ffpp!0@27_h$7okb#jes057c=!x$-r^l7"
+SECRET_KEY = config_secret_common["django"]["secret_key"]
+
+JWT_AUTH = {
+    "JWT_ALLOW_REFRESH": True,
+    "JWT_SECRET_KEY": config_secret_common["jwt"]["secret_key"],
+    "JWT_ALGORITHM": config_secret_common["jwt"]["algorithm"],
+}
+
+AUTH_USER_MODEL = "account.User"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR + "/db.sqlite3",
+    }
+}
 
 # Application definition
 
@@ -28,12 +47,13 @@ INSTALLED_APPS = [
     "rest_framework",
     "account",
     "sleep_analysis",
+    "vibration",
 ]
 
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "account.authentication.CustomJSONWebTokenAuthentication",
         #'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.BasicAuthentication',
     ),
@@ -74,13 +94,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 
 # Password validation
