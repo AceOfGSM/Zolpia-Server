@@ -2,8 +2,8 @@ from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .models import VibrationSetting
-from .serializers import VibrationSettingSerializer
+from .models import VibrationSetting, VibrationPattern
+from .serializers import VibrationSettingSerializer, VibrationPatternSerializer
 
 
 class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
@@ -27,7 +27,8 @@ class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
             raise ValidationError(detail={"message": "same name already exists"})
 
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid()
+        if not serializer.is_valid():
+            raise ValidationError(detail={"message": "invalid data"})
         serializer.save()
 
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
