@@ -41,12 +41,14 @@ class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
 
         data = {
             "sleepScore": 23,
-            "sleepTimeFrom": "00:00",
+            "sleepTimeFrom": "12:00",
             "sleepTimeTo": "06:00",
             "deepSleepScore": 170,
             "shallowSleepScore": 200,
             "evalulation": "못잤네 조금?",
         }
+        # 수면시간 = sleepTimeTo - sleepTimeFrom
+        # sleepTimeFrom > sleepTimeTo, sleepTimeTo += 24
         # data = {
         #    "sleepScore" : sleepScore 구해주는 함수,
         #    "sleepTimeFrom" : sleepTimeFrom 구해주는 함수
@@ -55,6 +57,14 @@ class UpdateSleepAnalysisResultAPI(generics.UpdateAPIView):
         #    "shallowSleepTime" : shallowSleepTime 구해주는 함수
         #    "evalulation" : evalulation 구해주는 함수
         # }
+
+        if data["sleepTimeFrom"].replace(":", "") > data["sleepTimeTo"].replace(
+            ":", ""
+        ):
+            separated_sleepTimeTo = data["sleepTimeTo"].split(":")
+            data["sleepTimeTo"] = (
+                str(int(separated_sleepTimeTo[0]) + 24) + ":" + separated_sleepTimeTo[1]
+            )
 
         serializer = self.get_serializer(data=instance)
         serializer.update(instance, **data)
@@ -67,7 +77,7 @@ class CreateEEGDataAPI(generics.CreateAPIView):
     serializer_class = EEGDataSerializer
 
     def post(self, request, *args, **kwargs):
-        eegData_list = request.data["eeg-data"]
+        eegData_list = request.data["eeg_data"]
         statement = get_statement_by_eegdata_list(eegData_list)
 
         data = {
