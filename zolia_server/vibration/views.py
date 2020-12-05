@@ -12,7 +12,7 @@ class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        queryset = queryset.filter(userID=request.user.email)
+        queryset = queryset.filter(userID=request.user.email).order_by("alarmTimeTo")
 
         serializer = VibrationSettingSerializer(queryset, many=True)
 
