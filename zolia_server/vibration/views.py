@@ -12,6 +12,7 @@ class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        print(request.user.email)
         queryset = queryset.filter(userID=request.user.email).order_by("alarmTimeTo")
 
         serializer = VibrationSettingSerializer(queryset, many=True)
@@ -22,7 +23,7 @@ class ListCreateVibrationSettingAPI(generics.ListCreateAPIView):
         instance = self.queryset.filter(
             userID=request.data["userID"], name=request.data["name"]
         )
-
+        print(request.data)
         if instance:  # userID 당 name은 중복 불가
             raise ValidationError(detail={"message": "same name already exists"})
 

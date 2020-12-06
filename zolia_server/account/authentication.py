@@ -30,4 +30,5 @@ class CustomJSONWebTokenAuthentication(JSONWebTokenAuthentication):
             msg = _("User account is disabled.")
             raise exceptions.AuthenticationFailed(msg)
 
+        print(user.email)
         return user
